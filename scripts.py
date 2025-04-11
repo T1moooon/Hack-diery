@@ -2,6 +2,20 @@ import random
 from datacenter.models import Mark, Chastisement, Commendation, Schoolkid, Lesson
 
 
+COMMENDATION_TEXTS = [
+    "Молодец",
+    "Отлично!",
+    "Хорошо!",
+    "Ты меня приятно удивил!",
+    "Великолепно!",
+    "Прекрасно!",
+    "Именно этого я давно ждал от тебя!",
+    "Сказано здорово – просто и ясно!",
+    "Очень хороший ответ!",
+    "Талантливо!",
+]
+
+
 def find_schoolkid(schoolkid_name):
     schoolkid = Schoolkid.objects.filter(full_name__contains=schoolkid_name)
     if schoolkid.count() == 0:
@@ -43,20 +57,9 @@ def create_commendation(schoolkid_name, subject_title):
     ).order_by('-date').first()
     if not last_lesson:
         print(f"Урок {subject_title} для {schoolkid.year_of_study}{schoolkid.group_letter} не найден")
-    commendation_text = [
-        "Молодец",
-        "Отлично!",
-        "Хорошо!",
-        "Ты меня приятно удивил!",
-        "Великолепно!",
-        "Прекрасно!",
-        "Именно этого я давно ждал от тебя!",
-        "Сказано здорово – просто и ясно!",
-        "Очень хороший ответ!",
-        "Талантливо!",
-    ]
+        return
     commendation = Commendation.objects.create(
-        text=random.choice(commendation_text),
+        text=random.choice(COMMENDATION_TEXTS),
         created=last_lesson.date,
         schoolkid=schoolkid,
         subject=last_lesson.subject,
