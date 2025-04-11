@@ -41,6 +41,8 @@ def create_commendation(schoolkid_name, subject_title):
         group_letter=schoolkid.group_letter,
         subject__title=subject_title
     ).order_by('-date').first()
+    if not last_lesson:
+        print(f"Урок {subject_title} для {schoolkid.year_of_study}{schoolkid.group_letter} не найден")
     commendation_text = [
         "Молодец",
         "Отлично!",
