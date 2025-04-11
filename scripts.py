@@ -17,15 +17,16 @@ COMMENDATION_TEXTS = [
 
 
 def find_schoolkid(schoolkid_name):
-    schoolkid = Schoolkid.objects.filter(full_name__contains=schoolkid_name)
-    if schoolkid.count() == 0:
+    try:
+        schoolkid = Schoolkid.objects.get(full_name__contains=schoolkid_name)
+        print(f'Найден ученик: {schoolkid}')
+        return schoolkid
+    except ObjectDoesNotExist:
         print(f'Ученик с именем "{schoolkid_name}" не найден.')
-    elif schoolkid.count() == 1:
-        name = schoolkid.get()
-        print(f'Найден ученик {name}')
-        return name
-    else:
-        print(f'Найдено несколько учеников {schoolkid_name}')
+        return None
+    except MultipleObjectsReturned:
+        print('Пожалуйста, уточните запрос, используя полное ФИО или ID ученика.')
+        return None
 
 
 def fix_marks(schoolkid_name):
